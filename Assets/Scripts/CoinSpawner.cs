@@ -21,5 +21,10 @@ public class CoinSpawner : MonoBehaviour
             Instantiate(coinTemplate, new Vector3(platformPos.x, platformPos.y + yCoinPositionOffset, platformPos.z),Quaternion.identity);
         }
     }
+
+    public void CollectCoin(GameObject coin)
+    {
+        Destroy(coin);
+    }
     
 }

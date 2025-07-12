@@ -2,6 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(LayerMask))]
 
 public class PlayerController : MonoBehaviour
 {
@@ -70,7 +71,9 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Coin"))
         {
-            CollectCoin(collision.gameObject);
+            var coinSpawner = GameObject.Find("CoinSpawner");
+            if (!coinSpawner) return;
+            coinSpawner.GetComponent<CoinSpawner>().CollectCoin(collision.gameObject);
         }
     }
 
@@ -84,6 +87,9 @@ public class PlayerController : MonoBehaviour
         {
             audioSource.GetComponent<AudioSource>().Play();
         }
+        
+        
+        
         Destroy(coin);
     }
     
