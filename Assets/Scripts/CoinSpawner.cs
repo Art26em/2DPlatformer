@@ -5,7 +5,7 @@ public class CoinSpawner : MonoBehaviour
     [SerializeField] private GameObject coinTemplate; 
     [SerializeField] private float yCoinPositionOffset;
     
-    private GameObject[] _platforms;
+    private PlatformController[] _platforms;
     
     private void Start()
     {
@@ -14,17 +14,12 @@ public class CoinSpawner : MonoBehaviour
 
     private void SpawnCoins()
     {
-        _platforms = GameObject.FindGameObjectsWithTag("Platform");
+        _platforms = GameObject.FindObjectsOfType<PlatformController>();
         foreach (var t in _platforms)
         {
             var platformPos = t.transform.position;
             Instantiate(coinTemplate, new Vector3(platformPos.x, platformPos.y + yCoinPositionOffset, platformPos.z),Quaternion.identity);
         }
-    }
-
-    public void CollectCoin(GameObject coin)
-    {
-        Destroy(coin);
     }
     
 }

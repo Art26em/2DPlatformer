@@ -66,31 +66,5 @@ public class PlayerController : MonoBehaviour
             _animator.SetTrigger(_isJumpingParameter);
         }
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Coin"))
-        {
-            var coinSpawner = GameObject.Find("CoinSpawner");
-            if (!coinSpawner) return;
-            coinSpawner.GetComponent<CoinSpawner>().CollectCoin(collision.gameObject);
-        }
-    }
-
-    private void CollectCoin(GameObject coin)
-    {
-        var coinAudioPlayer = GameObject.FindGameObjectWithTag("CoinAudioPlayer");
-        if (!coinAudioPlayer) return;
-        
-        var audioSource = coinAudioPlayer.GetComponent(typeof(AudioSource));
-        if (audioSource)
-        {
-            audioSource.GetComponent<AudioSource>().Play();
-        }
-        
-        
-        
-        Destroy(coin);
-    }
     
 }
