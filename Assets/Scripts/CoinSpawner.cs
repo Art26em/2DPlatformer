@@ -1,11 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CoinSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject coinTemplate; 
     [SerializeField] private float yCoinPositionOffset;
-    
-    private PlatformController[] _platforms;
+    [SerializeField] private List<Transform> platforms;
     
     private void Start()
     {
@@ -14,10 +14,9 @@ public class CoinSpawner : MonoBehaviour
 
     private void SpawnCoins()
     {
-        _platforms = GameObject.FindObjectsOfType<PlatformController>();
-        foreach (var t in _platforms)
+        foreach (var platformTransform in platforms)
         {
-            var platformPos = t.transform.position;
+            var platformPos = platformTransform.position;
             Instantiate(coinTemplate, new Vector3(platformPos.x, platformPos.y + yCoinPositionOffset, platformPos.z),Quaternion.identity);
         }
     }
