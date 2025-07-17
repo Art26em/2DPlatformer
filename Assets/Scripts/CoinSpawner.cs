@@ -5,7 +5,7 @@ public class CoinSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject coinTemplate; 
     [SerializeField] private float yCoinPositionOffset;
-    [SerializeField] private List<Transform> platforms;
+    [SerializeField] private List<Transform> platformsToSpawnCoins;
     
     private void Start()
     {
@@ -14,10 +14,14 @@ public class CoinSpawner : MonoBehaviour
 
     private void SpawnCoins()
     {
-        foreach (var platformTransform in platforms)
+        foreach (var platformTransform in platformsToSpawnCoins)
         {
             var platformPos = platformTransform.position;
-            Instantiate(coinTemplate, new Vector3(platformPos.x, platformPos.y + yCoinPositionOffset, platformPos.z),Quaternion.identity);
+            Instantiate(coinTemplate, new Vector3(
+                platformPos.x, 
+                platformPos.y + yCoinPositionOffset, 
+                platformPos.z)
+                ,Quaternion.identity);
         }
     }
     

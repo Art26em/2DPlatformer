@@ -5,13 +5,17 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float patrollingTime;
     
-    private readonly int _moveSpeedParameter = Animator.StringToHash("MoveSpeed");
+    private readonly int _moveSpeedParameterHash = AnimationParameters.MoveSpeedParamHash;
     private Rigidbody2D _rb;
     private Animator _animator;
     
     private float _moveInput = 1;
     private float _passedTime;
     private bool _isFacingRight = true;
+    
+    private readonly float _xFlipScale = -1f;
+    private readonly float _yFlipScale = 1f;
+    private readonly float _zFlipScale = 1f;
     
     private void Awake()
     {
@@ -42,13 +46,16 @@ public class EnemyController : MonoBehaviour
     private void Move()
     {
         _rb.velocity = new Vector2(_moveInput * moveSpeed, _rb.velocity.y);
-        _animator.SetFloat(_moveSpeedParameter, Mathf.Abs(_moveInput));    
+        _animator.SetFloat(_moveSpeedParameterHash, Mathf.Abs(_moveInput));    
     }
     
     private void Flip()
     {
         _isFacingRight = !_isFacingRight;
-        transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+        transform.localScale = new Vector3(
+            transform.localScale.x * _xFlipScale, 
+            transform.localScale.y * _yFlipScale, 
+            transform.localScale.z * _zFlipScale);
     }
     
 }

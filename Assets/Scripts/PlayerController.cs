@@ -11,8 +11,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform feetPosition;
     [SerializeField] private LayerMask whatIsGround;
     
-    private readonly int _moveSpeedParameter = Animator.StringToHash("MoveSpeed");
-    private readonly int _isJumpingParameter = Animator.StringToHash("IsJumping");
+    private readonly int _moveSpeedParameterHash = AnimationParameters.MoveSpeedParamHash;
+    private readonly int _isJumpingParameterHash = AnimationParameters.IsJumpingParameter;
     private Rigidbody2D _rb;
     private Animator _animator;
     
@@ -20,6 +20,11 @@ public class PlayerController : MonoBehaviour
     private readonly float _checkRadius = 0.3f;
     private bool _isGrounded = true;
     private bool _isFacingRight = true;
+    private string _horizontalAxis = InputAxes.Horizontal;
+    
+    private readonly float _xFlipScale = -1f;
+    private readonly float _yFlipScale = 1f;
+    private readonly float _zFlipScale = 1f;
     
     private void Awake()
     {
@@ -46,15 +51,18 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        _moveInput = Input.GetAxis("Horizontal");
+        _moveInput = Input.GetAxis(_horizontalAxis);
         _rb.velocity = new Vector2(_moveInput * moveSpeed, _rb.velocity.y);
-        _animator.SetFloat(_moveSpeedParameter, Mathf.Abs(_moveInput));    
+        _animator.SetFloat(_moveSpeedParameterHash, Mathf.Abs(_moveInput));    
     }
     
     private void Flip()
     {
         _isFacingRight = !_isFacingRight;
-        transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+        transform.localScale = new Vector3(
+            transform.localScale.x * _xFlipScale, 
+            transform.localScale.y * _yFlipScale, 
+            transform.localScale.z * _zFlipScale);
     }
 
     private void Jump()
@@ -63,7 +71,7 @@ public class PlayerController : MonoBehaviour
         if (_isGrounded)
         {
             _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            _animator.SetTrigger(_isJumpingParameter);
+            _animator.SetTrigger(_isJumpingParameterHash);
         }
     }
     
